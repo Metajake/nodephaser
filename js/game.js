@@ -1,34 +1,55 @@
 var gameConfig = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: {y:200},
-    },
-  },
-  scene: {
-    preload: preload,
-    create: create,
-  },
+  width: window.innerWidth,
+  height: window.innerHeight,
+  autoResize: true,
+  parent: "game",
+  scene: {create: create,resize:resize}
 }
-var game = new Phaser.Game(gameConfig);
-function preload(){
-  this.load.image('red', 'assets/red.png');
-}
+
 function create(){
-  var particles = this.add.particles('red');
-  var emitter = particles.createEmitter({
-    speed: 100,
-    scale: { start: 1, end: 0},
-    blendMode: "ADD"
-  });
-  emitter.start();
+  this.events.on('resize', resize, this);
+
+  Client.askNewPlayer();
 }
-game.scene.add("Game", Game);
-game.scene.start("Game");
-var Game = {}
-Game.init = function(){
-  // game.stage.disableVisibilityChange = true;
+
+function resize (width, height){
+    if (width === undefined) { width = this.sys.game.config.width; }
+    if (height === undefined) { height = this.sys.game.config.height; }
+    this.cameras.resize(width, height);
 }
+
+window.addEventListener('resize', function (event) {
+    game.resize(window.innerWidth, window.innerHeight);
+}, false);
+
+class SceneA extends Phaser.Scene{
+  constructor(config){
+    super(config);
+  }
+  initialize (){
+    Phaser.Scene.call(this, { key: 'sceneA' });
+  }
+  preload(){
+  }
+  create(data){
+    console.log(gameData);
+  }
+};
+
+class GameData{
+  constructor(){
+    this.playerMap = {};
+  }
+  addNewPlayer(id){
+    this.playerMap[id] = id;
+  }
+  removePlayer(id){
+    this.playerMap[id].destroy();
+    delete this.playerMap[id];
+  }
+};
+
+var game = new Phaser.Game(gameConfig);
+var gameData = new GameData();
+game.scene.add('sceneA', SceneA, true, {})
