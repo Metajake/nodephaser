@@ -4,10 +4,36 @@ html(lang="en" dir="ltr")
     meta(charset="utf-8")
     title Node Phaser
     link(href="css/reset.css" rel="stylesheet")
+    link(href="css/style.css" rel="stylesheet")
   body
-    #game
+    #top-area
+      #controls
+        h1 Dice Game
+        h2 Time <span id="day-container"></span>
+        br
+        input#roll-dice.top-20(type="submit" value="Roll Dice")
+        input#roll-value(type="number" value="1")
+        span#dice-outcome
+        br
+        input#conclude-first-phase.top-20(type="submit" value="Conclude First and Second Phase")
+        input#take-turn(type="submit" value="Take Turn")
+        //- span#turn-count
+        p#round-status.top-20
+        h3 People
+        p
+          span#influence-count
+          span  / 
+          span#people-count
+      #game-board
+    #bottom-area
+      #beings-container
     script(src="/socket.io/socket.io.js")
     script(src="js/phaser.js")
+    script(src="js/boardgame.js")
     script(src="js/dice.js")
+    script(src="js/beings.js")
+    script(src="js/being.js")
+    script(src="js/people.js")
+    script(src="js/boardgameinit.js")
     script(src="js/client.js")
     script(src="js/game.js")
