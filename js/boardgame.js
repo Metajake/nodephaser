@@ -15,7 +15,7 @@ class Boardgame {
     this.roundDamage = 0;
   }
   takeTurn(){
-    if(this.numberOfPlayers % (this.turnPosition) == 1 ){
+    if((this.turnPosition+1) % this.numberOfPlayers == 0 ){
       this.turnPosition = 0;
     }else{
       this.turnPosition ++;
